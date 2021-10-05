@@ -5,5 +5,5 @@ let index = "";
 for (i = 0; i < arr.length; i++) {
   index = arr.indexOf("라");
   arr.splice(index, 1);
-  console.log(arr);
 }
+console.log(arr);
