@@ -8,14 +8,35 @@
   </head>
   <body>
     <div><span class="order">1</span>번째 참가자</div>
-    <div>제시어:<span class="word">1</span></div>
+    <div>제시어:<span id="word"></span></div>
     <input type="text" />
     <button>입력</button>
     <script>
       const number = parseInt(prompt("몇명이 참가하나요 ?")); // prompt사용시 string이라 number 변경
-      console.log(number);
-      alert(number);
-      const yesOrNo = confirm("맞나요?"); // ture false
+      const $input = document.querySelector("input");
+      const $button = document.querySelector("button");
+      const $word = document.querySelector("#word");
+      let word; // 제시어
+      let newWord; // 새로운 제시어
+
+      const onInput = (e) => {
+        newWord = e.target.value;
+      };
+
+      const onClickButton = () => {
+        if (!word) {
+          // 제시어가 비어 있는가?
+          // 비어 있다.
+          word = newWord;
+          $word.innerHTML = word;
+          $input.value = "";
+        } else {
+          // 비어 있지 않다.
+        }
+      };
+
+      $input.addEventListener("input", onInput);
+      $button.addEventListener("click", onClickButton);
     </script>
   </body>
 </html>
