@@ -7,7 +7,7 @@
     <title>끝말잇기</title>
   </head>
   <body>
-    <div><span class="order">1</span>번째 참가자</div>
+    <div><span id="order">1</span>번째 참가자</div>
     <div>제시어:<span id="word"></span></div>
     <input type="text" />
     <button>입력</button>
@@ -16,6 +16,7 @@
       const $input = document.querySelector("input");
       const $button = document.querySelector("button");
       const $word = document.querySelector("#word");
+      const $order = document.querySelector("#order");
       let word; // 제시어
       let newWord; // 새로운 제시어
 
@@ -30,8 +31,27 @@
           word = newWord;
           $word.innerHTML = word;
           $input.value = "";
+          const order = Number($order.textContent); // 현재순서
+          if (order + 1 > number) {
+            // 전체순서보다 현재순서가 크면
+            $order.textContent = 1; // 다시 1번째 순서로 돌아감
+          } else {
+            $order.textContent = order + 1; // 1씩증가
+          }
         } else {
           // 비어 있지 않다.
+          if (word[word.length - 1] === newWord[0]) {
+            word = newWord;
+            $word.innerHTML = word;
+            $input.value = "";
+            const order = Number($order.textContent); // 현재순서
+            if (order + 1 > number) {
+              // 전체순서보다 현재순서가 크면
+              $order.textContent = 1; // 다시 1번째 순서로 돌아감
+            } else {
+              $order.textContent = order + 1; // 1씩증가
+            }
+          }
         }
       };
 
