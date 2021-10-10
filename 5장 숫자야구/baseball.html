@@ -68,10 +68,23 @@
           );
           return;
         }
-        // 몇 스트라이크 볼인지 검사
-
         tries.push(value);
         console.log(tries);
+        // 몇 스트라이크 볼인지 검사
+        let strike = 0;
+        let ball = 0;
+        for (i = 0; i < answer.length; i++) {
+          const index = value.indexOf(answer[i]);
+          if (index > -1) {
+            if (index === i) {
+              strike += 1;
+            } else {
+              ball += 1;
+            }
+          }
+        }
+
+        tries.push(value);
       });
     </script>
   </body>
