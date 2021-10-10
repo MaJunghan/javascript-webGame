@@ -8,7 +8,7 @@
   </head>
   <body>
     <form id="form">
-      <input type="text" id="input" />
+      <input type="text" id="input" placeholder="4자리 숫자를 입력해주세요." />
       <button>확인</button>
     </form>
     <div id="logs"></div>
@@ -23,11 +23,56 @@
       }
       const answer = [];
       for (let i = 0; i < 4; i++) {
-        const index = Math.floor(Math.random() * (randomNum.length - i)); // 0~8의 정수 index기준
+        // 랜덤으로 index를 발생시키고 randomNum에서 index로 해당값을 answer에 해당값추가. 원래randomNum에서는 삭제
+        const index = Math.floor(Math.random() * (randomNum.length - i)); // 0~8의 정수 index기준 ,
         answer.push(randomNum[index]);
         randomNum.splice(index, 1);
       }
       console.log(answer);
+
+      const tries = [];
+      const checkInput = (value) => {
+        // 입력값을 검사하는 코드
+        if (value.length !== 4) {
+          // 자릿수검사
+          return alert("4자리 숫자를 입력해주세요");
+          // 이렇게 리턴이 끝나면 undifind === false
+        }
+        if (new Set(value).size !== 4) {
+          // 중복검사
+          return alert("4자리가 중복되지 않게 입력해주세요");
+        }
+        if (tries.includes(value)) {
+          // 이미 입력한값 검사
+          return alert("이미 시도한 값입니다. 다른값을 입력해주세요");
+        }
+        return true;
+      };
+
+      $form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const value = $input.value;
+        $input.value = "";
+        // 입력값 문제있음
+        if (!checkInput(value)) {
+          return;
+        }
+        // 입력값 문제없음
+        if (answer.join("") === value) {
+          $logs.textContent = "홈런!";
+          return;
+        }
+        if (tries.length >= 9) {
+          $logs.appendChild(
+            document.createTextNode(`패배! 정답은 ${answer.join("")}`)
+          );
+          return;
+        }
+        // 몇 스트라이크 볼인지 검사
+
+        tries.push(value);
+        console.log(tries);
+      });
     </script>
   </body>
 </html>
