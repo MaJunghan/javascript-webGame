@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>로또 추첨기</title>
+    <style>
+      .ball {
+        display: inline-block;
+        border: 1px solid;
+        border-radius: 20px;
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        font-size: 20px;
+        text-align: center;
+        margin-right: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="reslut">로또 추첨 결과는?</div>
+    <div id="bonus">보너스 :</div>
+    <script>
+      const candidate = Array(45)
+        .fill()
+        .map((value, index) => {
+          return index + 1;
+        });
+      const shuffle = [];
+      while (candidate.length > 0) {
+        const random = Math.floor(Math.random() * candidate.length); // 무작위 45개 num 섞기
+        const spliceArray = candidate.splice(random, 1); // 해당 랜덤값에서 1개를 가져와서 spliceArray값에넣음
+        const value = spliceArray[0]; // 꺼내서 value로 담음
+        shuffle.push(value); // 해당값을 셔플이란 배열에 담음bind (el, binding, vnode) {
+      }
+      console.log(shuffle);
+      const winBall = shuffle.splice(0, 6).sort((a, b) => a - b); // 아스키코드로 나와서 a -b 를해줘야 작은값부터 실행함.
+      const bonusBall = shuffle[6];
+      console.log(winBall, bonusBall);
+    </script>
+  </body>
+</html>
