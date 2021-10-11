@@ -20,8 +20,8 @@
     </style>
   </head>
   <body>
-    <div id="reslut">로또 추첨 결과는?</div>
-    <div id="bonus">보너스 :</div>
+    <div id="reslut">로또 추첨 결과는? &nbsp;</div>
+    <div id="bonus">보너스 :&nbsp;</div>
     <script>
       const candidate = Array(45)
         .fill()
@@ -39,6 +39,23 @@
       const winBall = shuffle.splice(0, 6).sort((a, b) => a - b); // 아스키코드로 나와서 a -b 를해줘야 작은값부터 실행함.
       const bonusBall = shuffle[6];
       console.log(winBall, bonusBall);
+      // setTimeOut
+      const $reslut = document.querySelector("#reslut");
+      const $bonus = document.querySelector("#bonus");
+      const showBall = (number, target) => {
+        const $ball = document.createElement("div");
+        $ball.className = "ball";
+        $ball.textContent = number;
+        target.append($ball);
+      };
+      for (let i = 0; i < 6; i++) {
+        setTimeout(() => {
+          showBall(winBall[i], $reslut);
+        }, (i + 1) * 1000);
+      }
+      setTimeout(() => {
+        showBall(bonusBall, $bonus);
+      }, 7000);
     </script>
   </body>
 </html>
