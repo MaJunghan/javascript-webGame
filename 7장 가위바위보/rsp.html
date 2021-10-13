@@ -21,11 +21,37 @@
     </div>
     <div id="score">0</div>
     <script>
-      $computet = document.querySelector("#computer");
-      $scissors = document.querySelector("#scissors");
-      $rock = document.querySelector("#rock");
-      $paper = document.querySelector("#paper");
-      $score = document.querySelector("#score");
+      const $computet = document.querySelector("#computer");
+      const $scissors = document.querySelector("#scissors"); // 가위
+      const $rock = document.querySelector("#rock"); // 바위
+      const $paper = document.querySelector("#paper"); // 보
+      const $score = document.querySelector("#score");
+      const IMG_URL = "./rsp.png";
+      $computet.style.background = `url(${IMG_URL}) 0 0`;
+      $computet.style.backgroundSize = "auto 200px";
+
+      // x 좌표 객체
+      const rspX = {
+        scissors: "0", // 가위
+        rock: "-220px", // 바위
+        peper: "-440px", // 보
+      };
+
+      let computerChice = "scissors";
+      const changeRsp = () => {
+        if (computerChice === "scissors") {
+          computerChice = "rock";
+        } else if (computerChice === "rock") {
+          computerChice = "peper";
+        } else {
+          computerChice = "scissors";
+        }
+        $computet.style.background = `url(${IMG_URL}) ${rspX[computerChice]} 0`;
+        $computet.style.backgroundSize = "auto 200px";
+        setTimeout(changeRsp, 50);
+      };
+      // setInterval : 해당 객체를 반복해서 보여줌.
+      setTimeout(changeRsp, 50);
     </script>
   </body>
 </html>
