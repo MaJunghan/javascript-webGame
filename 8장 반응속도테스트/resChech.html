@@ -6,5 +6,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>반응속도 체크</title>
   </head>
-  <body></body>
+  <style>
+    #screen {
+      width: 300px;
+      height: 200px;
+      text-align: center;
+      user-select: none;
+    }
+    #screen.waiting {
+      background-color: aqua;
+    }
+    #screen.ready {
+      background-color: red;
+      color: white;
+    }
+    #screen.now {
+      background-color: greenyellow;
+    }
+  </style>
+  <body>
+    <div id="screen" class="waiting">클릭해서 시작하세요</div>
+    <div id="result"></div>
+    <script>
+      const $screen = document.querySelector("#screen");
+      const $result = document.querySelector("#result");
+      let startTime;
+      let endTime;
+
+      const onClickChangeClasss = (e) => {
+        if (e.target.classList.contains("waiting")) {
+          $screen.classList.remove("waiting");
+          $screen.classList.add("ready");
+          $screen.textContent = "초록색이 되면 클릭 하세요";
+          setTimeout(() => {
+            startTime = new Date();
+            $screen.classList.remove("ready");
+            $screen.classList.add("now");
+            $screen.textContent = "클릭하세요";
+            // 초록색화면으로 바뀔떄 : 여기서부터 첫 시간재기
+          }, Math.floor(Math.random() * 1000) + 2000); // 2~3초 사이로 랜덤하게
+        } else if (e.target.classList.contains("ready")) {
+          alert("초록색 화면에서 클릭 해주세요!");
+          $screen.classList.remove("ready");
+          $screen.classList.add("waiting");
+        } else if (e.target.classList.contains("now")) {
+          // 끝 시간 재기
+          endTime = new Date();
+          // 끝시간 - 첫시간 = 시간차이 저장
+          $result.textContent = `${(endTime - startTime) / 1000}초`;
+          $screen.classList.remove("now");
+          $screen.classList.add("waiting");
+          $screen.textContent = "클릭해서 시작하세요";
+        }
+      };
+      $screen.addEventListener("click", onClickChangeClasss);
+    </script>
+  </body>
 </html>
