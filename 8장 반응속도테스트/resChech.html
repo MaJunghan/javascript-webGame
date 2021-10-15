@@ -33,12 +33,13 @@
       let startTime;
       let endTime;
       let records = [];
+      let timeOutID;
       const onClickChangeClasss = (e) => {
         if (e.target.classList.contains("waiting")) {
           $screen.classList.remove("waiting");
           $screen.classList.add("ready");
           $screen.textContent = "초록색이 되면 클릭 하세요";
-          setTimeout(() => {
+          timeOutID = setTimeout(() => {
             startTime = new Date();
             $screen.classList.remove("ready");
             $screen.classList.add("now");
@@ -49,6 +50,8 @@
           alert("초록색 화면에서 클릭 해주세요!");
           $screen.classList.remove("ready");
           $screen.classList.add("waiting");
+          $screen.textContent = "클릭해서 시작하세요";
+          clearTimeout(timeOutID);
         } else if (e.target.classList.contains("now")) {
           // 끝 시간 재기
           endTime = new Date();
@@ -58,6 +61,17 @@
           // reduce : 축소하다(a: 현재값,b: 누적값) => arrowFunction에 retuen 생략 // 초기값 없을시 배열의[0] 자리값이 초기값
           const average = records.reduce((a, b) => a + b / records.length);
           $result.textContent = `현재 속도값은 ${current}ms,  평균은 ${average}ms`;
+          // top 5
+          const topFive = records.sort((a, b) => a - b).slice(0, 5);
+          topFive.map((top, index) => {
+            $result.append(
+              document.createElement("br"),
+              `${index + 1}위 : ${top}ms`
+            );
+          });
+          console.log(topFive);
+          startTime = null;
+          endTime = null;
           $screen.classList.remove("now");
           $screen.classList.add("waiting");
           $screen.textContent = "클릭해서 시작하세요";
