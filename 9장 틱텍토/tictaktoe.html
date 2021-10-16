@@ -25,23 +25,26 @@
       let turn = "O";
       const rows = [];
 
+      const turnChange = (e) => {
+        // 칸에 글자가 있나? 있으면 바로 함수종료
+        if (e.target.textContent) return;
+        // 글자없으면 ?
+        e.target.textContent = turn;
+        // turn === 'O' ? 'X': 'O'
+        if (turn === "O") {
+          turn = "X";
+        } else if (turn === "X") {
+          turn = "O";
+        }
+      };
+
       for (let i = 0; i < 3; i++) {
         const $tr = document.createElement("tr");
         const cells = [];
         for (let j = 0; j < 3; j++) {
           const $td = document.createElement("td");
           cells.push($td);
-          $td.addEventListener("click", (e) => {
-            // 칸에 글자가 있나? 있으면 바로 함수종료
-            if (e.target.textContent) return;
-            // 글자없으면 ?
-            e.target.textContent = turn;
-            if (turn === "O") {
-              turn = "X";
-            } else if (turn === "X") {
-              turn = "O";
-            }
-          });
+          $td.addEventListener("click", turnChange);
           $tr.append($td);
         }
         rows.push(cells);
