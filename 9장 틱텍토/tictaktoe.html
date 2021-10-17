@@ -21,21 +21,82 @@
     <script>
       const { body } = document;
       const $table = document.createElement("table");
-      const $reslut = document.createElement("div");
+      const $result = document.createElement("div");
       let turn = "O";
       const rows = [];
+      let con;
+
+      const checkWin = (target) => {
+        let rowIndex;
+        let cellIndex;
+        // 클릭 index찾기
+        rows.map((row, ri) => {
+          row.map((cell, ci) => {
+            if (cell === target) {
+              rowIndex = ri;
+              cellIndex = ci;
+            }
+          });
+        });
+        // 세칸 다 채워 졌나 ? false두고 채워졋으면 ture변경
+        let hasWinner = false;
+        // 가로줄 검사
+        if (
+          rows[rowIndex][0].textContent === turn &&
+          rows[rowIndex][1].textContent === turn &&
+          rows[rowIndex][2].textContent === turn
+        ) {
+          hasWinner = true;
+        }
+        // 세로줄 검사
+        if (
+          rows[0][cellIndex].textContent === turn &&
+          rows[1][cellIndex].textContent === turn &&
+          rows[2][cellIndex].textContent === turn
+        ) {
+          hasWinner = true;
+        }
+        // 대각선 검사
+        if (
+          rows[0][0].textContent === turn &&
+          rows[1][1].textContent === turn &&
+          rows[2][2].textContent === turn
+        ) {
+          hasWinner = true;
+        }
+        if (
+          rows[0][2].textContent === turn &&
+          rows[1][1].textContent === turn &&
+          rows[2][0].textContent === turn
+        ) {
+          hasWinner = true;
+        }
+        return hasWinner;
+      };
 
       const turnChange = (e) => {
-        // 칸에 글자가 있나? 있으면 바로 함수종료
-        if (e.target.textContent) return;
-        // 글자없으면 ?
-        e.target.textContent = turn;
-        // turn === 'O' ? 'X': 'O'
-        if (turn === "O") {
-          turn = "X";
-        } else if (turn === "X") {
-          turn = "O";
+        if (event.target.textContent !== "") {
+          // 칸이 이미 채워져 있는가?
+          console.log("빈칸이 아닙니다.");
+          return;
         }
+        // 빈칸이면
+        console.log("빈칸입니다");
+        event.target.textContent = turn;
+        // 승부 판단하기
+        const hasWinner = checkWin(event.target);
+        if (hasWinner) {
+          $result.textContent = `${turn}님이 승리!`;
+          $table.removeEventListener("click", turnChange);
+          return;
+        }
+        // 무승부 검사
+        const draw = rows.flat().every((cell) => cell.textContent);
+        if (draw) {
+          $result.textContent = `무승부`;
+          return;
+        }
+        turn = turn === "X" ? "O" : "X";
       };
 
       for (let i = 0; i < 3; i++) {
@@ -44,17 +105,15 @@
         for (let j = 0; j < 3; j++) {
           const $td = document.createElement("td");
           cells.push($td);
-          $td.addEventListener("click", turnChange);
           $tr.append($td);
         }
         rows.push(cells);
         $table.append($tr);
       }
-      console.log(rows);
+      // 이벤트 버블링 : 하위 html태그에서 상위 html 태그로 이벤트가 올라가는것
+      $table.addEventListener("click", turnChange); // <td>에서 클릭해도 table에 연결해서 event를 발생.
       body.append($table);
-      body.append($reslut);
-      // 이벤트 버블링
-      // 하위 html태그에서 상위 html 태그로 이벤트가 올라가는것
+      body.append($result);
 
       // 이벤트 캡처링
       // 상위 html태그에서 하위html태그로 내려가는것
