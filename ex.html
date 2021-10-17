@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const arr = [1, 2, 3, 4];
+
+      // 참조 : arr과 arr2의 메모리 주소값이 연결되어 있음. arr이나 arr2에서 값을바꾸면 같이바뀜.
+      const arr2 = arr;
+
+      // 얕은복사 :여기서 끝나는 것들이 많음. 대표적으로 ... 문법
+      // 배열안의 원시 들은 메모리에 할당 되어진게아니라, 값을 바뀌어도 연동되어 있지않지만,
+      // 객체( [], {} )는 연결되어있음.
+      const arr3 = [...arr];
+
+      // 깊은복사: 객체의 값을 바뀌어도 연결되어 있지않음.
+      const arr4 = JSON.parse(JSON.stringify(arr));
+    </script>
+  </body>
+</html>
